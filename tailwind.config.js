@@ -7,7 +7,10 @@ export default {
 				primary: "#0B1023",
 				secondary: "#0D1736",
 				success: "#009970",
-				danger: "#E75C6A",
+				danger: "#FF2c1f",
+				warning: "#FAEE04",
+				info: "#0EABF8",
+				pinky: "#F44B68",
 			},
 			container: {
 				center: true,

@@ -1,10 +1,15 @@
 <script setup>
-import { ref, watch } from "vue";
+import { onBeforeUnmount, ref, watch } from "vue";
+import { useRoute } from "vue-router";
+const route = useRoute();
 const props = defineProps(["open", "right", "dimmer"]);
 const emit = defineEmits(["close"]);
 const toggle = () => {
 	emit("close");
 };
+onBeforeUnmount(() => {
+	document.body.classList.remove("disable-scroll");
+});
 </script>
 <template>
 	<div class="inset-0 flex z-40" :class="open ? 'fixed' : 'hidden'">
@@ -37,8 +42,11 @@ const toggle = () => {
 							<RouterLink
 								to="/"
 								class="flex items-center text-lg rounded-md p-2 text-white hover:bg-gray-700 group"
+								:class="{
+									'bg-gray-700 cursor-default':
+										route.name === 'home',
+								}"
 							>
-								<!-- <i class="fa-solid fa-house"></i> -->
 								<span class="ml-3">Home</span>
 							</RouterLink>
 						</li>
@@ -46,8 +54,11 @@ const toggle = () => {
 							<RouterLink
 								to="/movies"
 								class="flex items-center text-lg rounded-md p-2 text-white hover:bg-gray-700 group"
+								:class="{
+									'bg-gray-700 cursor-default':
+										route.name === 'movies',
+								}"
 							>
-								<i class="fa-solid fa-camera-movie"></i>
 								<span class="ml-3">Movies</span>
 							</RouterLink>
 						</li>
@@ -55,6 +66,10 @@ const toggle = () => {
 							<RouterLink
 								to="/popular-now"
 								class="flex items-center text-lg rounded-md p-2 text-white hover:bg-gray-700 group"
+								:class="{
+									'bg-gray-700 cursor-default':
+										route.name === 'popularNow',
+								}"
 							>
 								<span class="ml-3">Popular Now</span>
 							</RouterLink>
@@ -63,6 +78,10 @@ const toggle = () => {
 							<RouterLink
 								to="/upcoming-movies"
 								class="flex items-center text-lg rounded-md p-2 text-white hover:bg-gray-700 group"
+								:class="{
+									'bg-gray-700 cursor-default':
+										route.name === 'upcomingMovies',
+								}"
 							>
 								<span class="ml-3">Upcoming Movies</span>
 							</RouterLink>
@@ -71,6 +90,10 @@ const toggle = () => {
 							<RouterLink
 								to="/casts"
 								class="flex items-center text-lg rounded-md p-2 text-white hover:bg-gray-700 group"
+								:class="{
+									'bg-gray-700 cursor-default':
+										route.name === 'casts',
+								}"
 							>
 								<span class="ml-3">Casts</span>
 							</RouterLink>
@@ -79,6 +102,10 @@ const toggle = () => {
 							<RouterLink
 								to="/about"
 								class="flex items-center text-lg rounded-md p-2 text-white hover:bg-gray-700 group"
+								:class="{
+									'bg-gray-700 cursor-default':
+										route.name === 'about',
+								}"
 							>
 								<span class="ml-3">About</span>
 							</RouterLink>

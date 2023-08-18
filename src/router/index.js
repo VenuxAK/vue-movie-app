@@ -16,7 +16,7 @@ const router = createRouter({
 		},
 		{
 			path: "/movies",
-			name: "movie",
+			name: "movies",
 			component: IndexView,
 		},
 		{

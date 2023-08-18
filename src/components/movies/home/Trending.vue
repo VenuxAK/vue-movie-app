@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue";
-import { Carousel, Pagination, Slide, Navigation } from "vue3-carousel";
+import { Carousel, Pagination, Slide } from "vue3-carousel";
 import MovieCard from "./MovieCard.vue";
 
 let settings = ref({
@@ -62,21 +62,7 @@ let images = ref([
 				</Slide>
 
 				<template #addons>
-					<div class="hidden md:block">
-						<Navigation>
-							<template #next>
-								<span class="navigation-controller">
-									<i class="fa-solid fa-circle-right"></i>
-								</span>
-							</template>
-							<template #prev>
-								<span class="navigation-controller">
-									<i class="fa-solid fa-circle-left"></i>
-								</span>
-							</template>
-						</Navigation>
-					</div>
-					<div class="block md:hidden">
+					<div class="">
 						<Pagination />
 					</div>
 				</template>
@@ -92,6 +78,11 @@ let images = ref([
 	width: 12px !important;
 	height: 12px !important;
 	border-radius: 6px !important;
-	// background-color: aliceblue;
+}
+.carousel__pagination-button:hover::after {
+	@apply bg-danger;
+}
+.carousel__pagination-button--active::after {
+	@apply bg-danger/90;
 }
 </style>

@@ -129,9 +129,11 @@ let posterImages = ref([
 							>
 								Movie title
 							</h1>
-							<h4 class="text-3xl flex items-center space-x-2">
+							<h4
+								class="text-base md:text-2xl mt-1 md:mt-0 flex items-center space-x-2"
+							>
 								<span>8.5</span>
-								<span class="text-2xl text-yellow-400">
+								<span class="text-yellow-400">
 									<i class="fa-solid fa-star"></i>
 								</span>
 							</h4>

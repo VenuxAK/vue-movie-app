@@ -103,15 +103,6 @@ onBeforeUnmount(() => {
 					<button class="text-white text-3xl" @click="toggleOpenMenu">
 						<i class="fa-solid fa-bars"></i>
 					</button>
-					<!-- <button
-						class="text-white text-3xl"
-						@click="toggleOpenMenu"
-						data-drawer-target="drawer-navigation"
-						data-drawer-show="drawer-navigation"
-						aria-controls="drawer-navigation"
-					>
-						<i class="fa-solid fa-bars"></i>
-					</button> -->
 				</div>
 			</div>
 		</div>
