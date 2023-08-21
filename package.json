@@ -1,26 +1,32 @@
 {
-  "name": "movea",
-  "version": "0.0.0",
-  "private": true,
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "@fortawesome/fontawesome-free": "^6.4.2",
-    "axios": "^1.4.0",
-    "pinia": "^2.1.4",
-    "sass": "^1.64.2",
-    "vue": "^3.3.4",
-    "vue-router": "^4.2.4",
-    "vue3-carousel": "^0.3.1"
-  },
-  "devDependencies": {
-    "@vitejs/plugin-vue": "^4.2.3",
-    "autoprefixer": "^10.4.14",
-    "postcss": "^8.4.27",
-    "tailwindcss": "^3.3.3",
-    "vite": "^4.4.6"
-  }
+	"name": "movea",
+	"version": "0.0.0",
+	"private": true,
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build",
+		"preview": "vite preview",
+		"api": "json-server --watch api/movies.json"
+	},
+	"dependencies": {
+		"@fortawesome/fontawesome-free": "^6.4.2",
+		"animate.css": "^4.1.1",
+		"axios": "^1.4.0",
+		"flowbite": "^1.8.1",
+		"pinia": "^2.1.4",
+		"sass": "^1.64.2",
+		"swiper": "^10.1.0",
+		"vue": "^3.3.4",
+		"vue-lazyload": "^3.0.0",
+		"vue-router": "^4.2.4",
+		"vue3-carousel": "^0.3.1"
+	},
+	"devDependencies": {
+		"@tailwindcss/aspect-ratio": "^0.4.2",
+		"@vitejs/plugin-vue": "^4.2.3",
+		"autoprefixer": "^10.4.14",
+		"postcss": "^8.4.27",
+		"tailwindcss": "^3.3.3",
+		"vite": "^4.4.6"
+	}
 }
