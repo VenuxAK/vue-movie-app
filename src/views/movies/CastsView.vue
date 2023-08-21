@@ -1,13 +1,13 @@
 <script setup>
 import Layout from "../../components/layouts/Layout.vue";
+import CastsWrapper from "../../components/movies/casts/CastsWrapper.vue";
+import Footer from "../../components/partials/Footer.vue";
 </script>
 <template>
-    <Layout>
-        <div>
-            <h1 class="text-3xl font-medium text-center">Casts</h1>
-        </div>
-    </Layout>
+	<Layout>
+		<CastsWrapper />
+		<Footer />
+	</Layout>
 </template>
-
 
 <style lang="scss" scoped></style>

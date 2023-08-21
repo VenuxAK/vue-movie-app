@@ -76,14 +76,14 @@ onBeforeUnmount(() => {
 						</li>
 						<li>
 							<RouterLink
-								to="/upcoming-movies"
+								to="/series"
 								class="flex items-center text-lg rounded-md p-2 text-white hover:bg-gray-700 group"
 								:class="{
 									'bg-gray-700 cursor-default':
-										route.name === 'upcomingMovies',
+										route.name === 'series',
 								}"
 							>
-								<span class="ml-3">Upcoming Movies</span>
+								<span class="ml-3">Series</span>
 							</RouterLink>
 						</li>
 						<li>

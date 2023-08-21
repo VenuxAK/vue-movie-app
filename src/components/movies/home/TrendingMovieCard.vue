@@ -5,7 +5,8 @@ const props = defineProps(["movie"]);
 	<div class="movie-card">
 		<div class="h-[85%] overflow-hidden rounded-md">
 			<RouterLink to="/movies/smt">
-				<img :src="movie" alt="" />
+				<!-- <img :src="movie.poster" alt="" /> -->
+				<img v-lazy="movie.poster" alt="" />
 			</RouterLink>
 		</div>
 		<div class="h-[15%]">

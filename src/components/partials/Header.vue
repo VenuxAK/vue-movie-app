@@ -40,7 +40,6 @@ onMounted(() => {
 	watch(lastScrollPosition, () => {
 		if (lastScrollPosition.value > 0) {
 			bgOpacity.value = true;
-			// console.log(lastScrollPosition.value);
 			return;
 		}
 	});
@@ -55,7 +54,6 @@ onBeforeUnmount(() => {
 		:class="{
 			'hidden-header': !showNavbar,
 			'bg-dark': lastScrollPosition > 100,
-			// 'hidden': openMenu,
 		}"
 	>
 		<div class="container relative">
@@ -74,9 +72,7 @@ onBeforeUnmount(() => {
 						<RouterLink to="/">Home</RouterLink>
 						<RouterLink to="/movies">Movies</RouterLink>
 						<RouterLink to="/popular-now">Popular Now</RouterLink>
-						<RouterLink to="/upcoming-movies"
-							>Upcoming Movies</RouterLink
-						>
+						<RouterLink to="/series">Series</RouterLink>
 						<RouterLink to="/casts">Casts</RouterLink>
 						<RouterLink to="/about">About</RouterLink>
 					</div>

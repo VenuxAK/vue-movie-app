@@ -11,8 +11,8 @@ import Footer from "../components/partials/Footer.vue";
 		<Trending />
 		<ShowAllMovies />
 		<UpcomingMovies />
+		<Footer />
 	</Layout>
-	<Footer />
 </template>
 
 <style lang="scss" scoped></style>
