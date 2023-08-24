@@ -2,14 +2,18 @@
 import { onMounted, ref } from "vue";
 import { Carousel, Pagination, Slide } from "vue3-carousel";
 import TrendingMovieCard from "./TrendingMovieCard.vue";
-import useMovies from "../../../composables/useMovies.js";
+
 import Spinner from "../../Loading/Spinner.vue";
+import { useMovies } from "../../../stores/useMovies";
 
 let movies = ref([]);
-let { getMovies } = useMovies();
+
+const { getMovies } = useMovies();
 
 onMounted(async () => {
-	movies.value = await getMovies("/trending");
+	let response = await getMovies("/movies/trending/day", 1);
+	movies.value = await response.data;
+	// console.log(movies.value);
 });
 
 let settings = ref({
@@ -66,7 +70,7 @@ let breakpoints = ref({
 					</div>
 				</template>
 			</Carousel>
-			<div v-else class="w-full h-[30vh]">
+			<div v-else class="w-full h-[60vh]">
 				<Spinner />
 			</div>
 		</div>

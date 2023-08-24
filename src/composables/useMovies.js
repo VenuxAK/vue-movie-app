@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// const base_url = "http://localhost:3000";
-const base_url = "https://d6b7-45-41-105-225.ngrok-free.app";
+const base_url = "http://localhost:3000";
+// const base_url = "https://087e-203-96-241-119.ngrok-free.app";
 
 const getMovies = async (uri) => {
 	try {

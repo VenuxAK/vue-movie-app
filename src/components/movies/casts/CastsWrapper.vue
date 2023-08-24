@@ -1,46 +1,37 @@
 <script setup>
 import { computed, onMounted, ref } from "vue";
-import DataTablePagination from "../../utils/DataTablePagination.vue";
 import CastCard from "./CastCard.vue";
-import useMovies from "../../../composables/useMovies";
 import Spinner from "../../Loading/Spinner.vue";
+import { useMovies } from "../../../stores/useMovies";
 
-let movies = ref([]);
+// let movies = ref([]);
+let casts = ref([]);
 const { getCasts } = useMovies();
 
 onMounted(async () => {
-	movies.value = await getCasts();
+	let response = await getCasts("/casts");
+	// console.log(response);
+	casts.value = [...(response ?? null)]; //? is a null-coalescing operator
 });
 
 let currentPage = ref(1);
 let moviesPerPage = ref(36);
-let totalPages = computed(() =>
-	Math.ceil(movies.value.length / moviesPerPage.value)
-);
-const handlePageChange = async (page) => {
-	currentPage.value = page;
-	movies.value = await getMovies();
-	totalPages = Math.ceil(movies.value.length / moviesPerPage.value);
-};
+
 const getCurrentPageData = computed(() => {
 	const startIndex = (currentPage.value - 1) * moviesPerPage.value;
 	const endIndex = startIndex + moviesPerPage.value;
-	return movies.value.slice(startIndex, endIndex);
+	return casts.value.slice(startIndex, endIndex);
 });
 </script>
 
 <template>
 	<div class="movies-container">
-		<DataTablePagination
-			:currentPage="currentPage"
-			:totalPages="totalPages"
-			:totalResults="movies.length"
-			from="casts"
-			@changePage="handlePageChange"
-		/>
+		<div>
+			<h1 class="text-3xl my-4 px-2 md:px-4 font-medium md:font-bold">Casts</h1>
+		</div>
 		<div class="casts-wrapper" v-if="getCurrentPageData.length > 0">
-			<div v-for="movie in getCurrentPageData" :key="movie">
-				<CastCard :movie="movie" />
+			<div v-for="cast in getCurrentPageData" :key="cast">
+				<CastCard :cast="cast" />
 			</div>
 		</div>
 		<div v-else class="h-[50vh]">
@@ -53,7 +44,7 @@ const getCurrentPageData = computed(() => {
 .movies-container {
 	@apply mt-12 md:container;
 	.casts-wrapper {
-		@apply grid grid-cols-3 md:grid-cols-6 lg:grid-cols-9 gap-x-6 px-3 gap-y-10;
+		@apply grid grid-cols-3 md:grid-cols-6 xxl:grid-cols-9 gap-x-6 px-3 gap-y-10;
 	}
 }
 </style>

@@ -1,71 +1,23 @@
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import Spinner from "../../Loading/Spinner.vue";
+import { useMovies } from "../../../stores/useMovies";
 
-const props = defineProps(["tab"]);
+const props = defineProps(["tab", "id"]);
 
-let coverImages = ref([
-	{
-		id: 1,
-		photo: "https://image.tmdb.org/t/p/original/vB8o2p4ETnrfiWEgVxHmHWP9yRl.jpg",
-	},
-	{
-		id: 2,
-		photo: "https://image.tmdb.org/t/p/original/pPwVYDfwNThUrGDNDStkv6QVHkS.jpg",
-	},
-	{
-		id: 3,
-		photo: "https://image.tmdb.org/t/p/original/2BwUMCi9fsZBicuNqBuwrfZoScH.jpg",
-	},
-	{
-		id: 4,
-		photo: "https://image.tmdb.org/t/p/original/9EpaPaKozP2b8L1hJekBFI75gCm.jpg",
-	},
-	{
-		id: 5,
-		photo: "https://image.tmdb.org/t/p/original/jCiGfY7D6pHIU1dlVccfixUwtGV.jpg",
-	},
-	{
-		id: 6,
-		photo: "https://image.tmdb.org/t/p/original/igs08nyaA21oWWA4NT2N2z58HHf.jpg",
-	},
-	{
-		id: 7,
-		photo: "https://image.tmdb.org/t/p/original/nU7bIOrUI1ziL5h0saHidjB4i6U.jpg",
-	},
-]);
-let posterImages = ref([
-	{
-		id: 1,
-		photo: "https://image.tmdb.org/t/p/original/xVMtv55caCEvBaV83DofmuZybmI.jpg",
-	},
-	{
-		id: 2,
-		photo: "https://image.tmdb.org/t/p/original/m1k24MwmoqAdKMPJDaBLwdB5Tps.jpg",
-	},
-	{
-		id: 3,
-		photo: "https://image.tmdb.org/t/p/original/ibjKNVEk348eIXnvwEz2wC45MGs.jpg",
-	},
-	{
-		id: 4,
-		photo: "https://image.tmdb.org/t/p/original/wGmf94zgpn1NjxsJ2cpZVNjZqcR.jpg",
-	},
-	{
-		id: 5,
-		photo: "https://image.tmdb.org/t/p/original/1eHMicYRA0BBnWUyXofyDCMnVJv.jpg",
-	},
-	{
-		id: 6,
-		photo: "https://image.tmdb.org/t/p/original/pKZFNuvKF1R9fmrbkT5JoaFhGbN.jpg",
-	},
-	{
-		id: 7,
-		photo: "https://image.tmdb.org/t/p/original/cuJ8IxabMEQVpF5TWnmVTvitHIm.jpg",
-	},
-]);
+const { getMovieDetail } = useMovies();
+
+let coverImages = ref([]);
+let posterImages = ref([]);
 
 let active = ref(true);
+
+onMounted(async () => {
+	let response = await getMovieDetail(props.id, true);
+	// console.log(response.data);
+	coverImages.value = response.data.backdrops;
+	posterImages.value = response.data.posters;
+});
 </script>
 <template>
 	<div
@@ -96,32 +48,29 @@ let active = ref(true);
 						</button>
 					</div>
 				</div>
-				<div
-					v-if="active"
-					class="lg:gap-2 lg:grid lg:grid-cols-3 border-b border-b-gray-700 pb-8"
-				>
+				<div v-if="active" class="lg:gap-2 lg:grid lg:grid-cols-3 pb-8">
 					<div
-						v-if="coverImages.length > 0"
-						v-for="image in coverImages"
-						:key="image.id"
+						v-if="posterImages.length > 0"
+						v-for="image in posterImages"
+						:key="image"
 						class="w-full rounded"
 					>
-						<img v-lazy="image.photo" alt="image" class="p-1" />
+						<img v-lazy="image.file_path" alt="image" class="p-1" />
 					</div>
-					<div v-else>
+					<div v-else class="h-[30vh]">
 						<Spinner />
 					</div>
 				</div>
 				<div v-else class="flex flex-wrap">
 					<div
-						v-if="posterImages.length > 0"
-						v-for="image in posterImages"
-						:key="image.id"
+						v-if="coverImages.length > 0"
+						v-for="image in coverImages"
+						:key="image"
 						class="w-full lg:w-1/3"
 					>
-						<img :src="image.photo" alt="image" class="p-1" />
+						<img v-lazy="image.file_path" alt="image" class="p-1" />
 					</div>
-					<div v-else>
+					<div v-else class="h-[30vh]">
 						<Spinner />
 					</div>
 				</div>

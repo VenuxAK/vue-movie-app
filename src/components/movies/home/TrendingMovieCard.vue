@@ -4,8 +4,7 @@ const props = defineProps(["movie"]);
 <template>
 	<div class="movie-card">
 		<div class="h-[85%] overflow-hidden rounded-md">
-			<RouterLink to="/movies/smt">
-				<!-- <img :src="movie.poster" alt="" /> -->
+			<RouterLink :to="'/movies/' + movie.id">
 				<img v-lazy="movie.poster" alt="" />
 			</RouterLink>
 		</div>
@@ -13,16 +12,32 @@ const props = defineProps(["movie"]);
 			<div class="movie-detail text-left">
 				<div class="flex items-start flex-col w-full">
 					<div>
-						<h4 class="truncate font-bold">
-							<RouterLink to="/movies/smt">
-								Movie Name
+						<h4 class="font-bold">
+							<RouterLink :to="'/movies/' + movie.id">
+								{{
+									movie.title.length > 20
+										? movie.title.substr(0, 20) + "..."
+										: movie.title
+								}}
 							</RouterLink>
 						</h4>
 					</div>
 					<div class="flex space-x-2 text-gray-500">
-						<h4 class="">8/10</h4>
+						<h4 class="">
+							{{ movie.vote_average.toFixed(1) }} / 10
+						</h4>
 						<span> | </span>
-						<p class="font-bold">Action, Crime</p>
+						<p class="font-bold">
+							<span
+								v-for="genre in movie.genres.slice(0, 1)"
+								:key="genre"
+								class="genre"
+							>
+								<span class="capitalize">{{
+									genre + ", "
+								}}</span>
+							</span>
+						</p>
 					</div>
 				</div>
 			</div>
@@ -38,6 +53,11 @@ const props = defineProps(["movie"]);
 	}
 	.movie-detail {
 		@apply w-full md:py-2 px-1 overflow-hidden;
+	}
+	.genre {
+		// &:not(:nth-last-child(n))::after {
+		// 	content: ",";
+		// }
 	}
 }
 </style>

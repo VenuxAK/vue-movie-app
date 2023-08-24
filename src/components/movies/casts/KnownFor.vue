@@ -1,50 +1,46 @@
 <script setup>
-import { computed, onMounted, ref } from "vue";
-import MovieCard from "../../utils/MovieCard.vue";
-import DataTablePagination from "../../utils/DataTablePagination.vue";
-import useMovies from "../../../composables/useMovies";
+import { onMounted } from "vue";
 import Spinner from "../../Loading/Spinner.vue";
 
-const { getMovies } = useMovies();
-let movies = ref([]);
+const props = defineProps(["movies"]);
 
 onMounted(async () => {
-	movies.value = await getMovies("/known-for");
-});
-
-let currentPage = ref(1);
-let moviesPerPage = ref(18);
-let totalPages = computed(() =>
-	Math.ceil(movies.value.length / moviesPerPage.value)
-);
-
-const handlePageChange = async (page) => {
-	currentPage.value = page;
-	movies.value = await getMovies();
-	totalPages = Math.ceil(movies.value.length / moviesPerPage.value);
-};
-const getCurrentPageData = computed(() => {
-	const startIndex = (currentPage.value - 1) * moviesPerPage.value;
-	const endIndex = startIndex + moviesPerPage.value;
-	return movies.value.slice(startIndex, endIndex);
+	// console.log(props.movies);
 });
 </script>
 <template>
-	<div class="known-for-wrapper">
+	<div class="mt-8">
+		<h1 class="text-3xl font-medium md:font-bold">Known For</h1>
 		<div
 			class="movies-container animate_animated animate__fadeIn"
-			v-if="movies.length > 0"
+			v-if="movies"
 		>
-			<DataTablePagination
-				:currentPage="currentPage"
-				:totalPages="totalPages"
-				:totalResults="movies.length"
-				from="known for"
-				@changePage="handlePageChange"
-			/>
 			<div class="movies-wrapper">
-				<div v-for="movie in getCurrentPageData" :key="movie">
-					<MovieCard :movie="movie" />
+				<div v-for="movie in movies" :key="movie">
+					<div class="movie-card">
+						<div class="movie-poster">
+							<RouterLink :to="'/movies/' + movie.id" class="">
+								<img :src="movie.poster" alt="" class="" />
+							</RouterLink>
+						</div>
+						<div class="movie-overview">
+							<RouterLink
+								:to="'/movies/' + movie.id"
+								class="text-xs sm:text-base md:text-lg font-bold truncate block"
+							>
+								{{ movie.title ?? movie.name }}
+							</RouterLink>
+						</div>
+						<div
+							class="absolute -top-2 -left-1 bg-danger bg-opacity-95 p-1 rounded-full"
+						>
+							<p class="text-xs md:text-sm w-full truncate">
+								<span class="font-medium">{{
+									movie.vote_average.toFixed(1)
+								}}</span>
+							</p>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -57,8 +53,23 @@ const getCurrentPageData = computed(() => {
 <style lang="scss" scoped>
 .movies-container {
 	@apply mt-12 md:container;
+
+	.movies-wrapper {
+		@apply container grid grid-cols-3 md:grid-cols-5 lg:grid-cols-7 xxl:grid-cols-9 grid-flow-dense gap-2 md:gap-3 px-3 md:px-0;
+	}
 }
-.paginate-btn {
-	@apply flex items-center justify-center px-4 h-10 text-base font-medium text-white bg-primary border-gray-700  hover:bg-gray-900 disabled:hover:bg-gray-800;
+.movie-card {
+	@apply relative h-[260px] sm:h-[300px] md:h-[280px];
+
+	.movie-poster {
+		@apply w-full h-[80%] rounded-md overflow-hidden;
+		img {
+			@apply w-full h-full object-cover;
+		}
+	}
+	.movie-overview {
+		@apply w-full h-[20%] px-1 pt-2 md:pt-0 overflow-hidden;
+		// border-radius: 0 0 6px 6px;
+	}
 }
 </style>

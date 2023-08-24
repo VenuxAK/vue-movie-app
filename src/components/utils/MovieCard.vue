@@ -5,22 +5,24 @@ const props = defineProps(["movie"]);
 <template>
 	<div class="movie-card">
 		<div class="movie-poster">
-			<RouterLink to="/movies/smt" class="">
+			<RouterLink :to="'/movies/' + movie.id" class="">
 				<img :src="movie.poster" alt="" class="" />
 			</RouterLink>
 		</div>
 		<div class="movie-overview">
 			<RouterLink
-				to="/movies/smt"
+				:to="'/movies/' + movie.id"
 				class="text-xs sm:text-base md:text-lg font-bold truncate block"
 			>
-				Movie name Movie name Movie name Movie name
+				{{ movie.title ?? movie.name }}
 			</RouterLink>
-			<p class="text-sm text-gray-500">
-				<span class="font-medium">7.8</span>
+			<p class="text-xs md:text-sm text-gray-500 w-full truncate">
+				<span class="font-medium">{{
+					movie.vote_average.toFixed(1)
+				}}</span>
 				<span> | </span>
-				<span class="font-bold">
-					<span>Genres </span>
+				<span class="font-bold capitalize">
+					{{ movie.genres.join(", ") }}
 				</span>
 			</p>
 		</div>

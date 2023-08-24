@@ -21,7 +21,7 @@ const router = createRouter({
 			component: IndexView,
 		},
 		{
-			path: "/movies/:name",
+			path: "/movies/:id",
 			name: "movieDetail",
 			component: ShowView,
 		},
@@ -41,7 +41,7 @@ const router = createRouter({
 			component: CastsView,
 		},
 		{
-			path: "/casts/:name",
+			path: "/casts/:id",
 			name: "showCast",
 			component: ShowCastView,
 		},

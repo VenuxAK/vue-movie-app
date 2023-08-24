@@ -22,6 +22,7 @@ export default {
 			},
 			screens: {
 				xs: "400px",
+				xxl: "1400px",
 			},
 			blur: {
 				xs: "2px",

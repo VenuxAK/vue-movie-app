@@ -2,47 +2,53 @@
 import { computed, onMounted, ref } from "vue";
 import MovieCard from "../utils/MovieCard.vue";
 import DataTablePagination from "../utils/DataTablePagination.vue";
-import useMovies from "../../composables/useMovies";
+import { useMovies } from "../../stores/useMovies";
 import Spinner from "../Loading/Spinner.vue";
 
 const { getMovies } = useMovies();
 let movies = ref([]);
-
-onMounted(async () => {
-	movies.value = await getMovies("/movies");
-});
-
+let totalResults = ref(0);
+let totalPages = ref(0);
 let currentPage = ref(1);
-let moviesPerPage = ref(18);
-let totalPages = computed(() =>
-	Math.ceil(movies.value.length / moviesPerPage.value)
-);
+let loading = ref(false);
+let disabled = ref(false);
 
 const handlePageChange = async (page) => {
 	currentPage.value = page;
-	movies.value = await getMovies("/movies");
-	totalPages = Math.ceil(movies.value.length / moviesPerPage.value);
+	disabled.value = true;
+	loading.value = true;
+	let response = await getMovies("/movies/trending/all/week", page);
+	// console.log(response);
+	movies.value = response.data;
+	loading.value = false;
+	disabled.value = false;
 };
 const getCurrentPageData = computed(() => {
-	const startIndex = (currentPage.value - 1) * moviesPerPage.value;
-	const endIndex = startIndex + moviesPerPage.value;
-	return movies.value.slice(startIndex, endIndex);
+	return movies.value;
+});
+
+onMounted(async () => {
+	let response = await getMovies("/movies/trending/all/week");
+	totalResults.value = response.total_results;
+	totalPages.value = response.total_pages;
+	movies.value = response.data;
 });
 </script>
 
 <template>
 	<div
 		class="movies-container animate_animated animate__fadeIn"
-		v-if="movies.length > 0"
+		v-if="movies.length > 0 && !loading"
 	>
 		<DataTablePagination
 			:currentPage="currentPage"
 			:totalPages="totalPages"
-			:totalResults="movies.length"
+			:totalResults="totalResults"
+			:disabled="disabled"
 			from="movies"
 			@changePage="handlePageChange"
 		/>
-		<div class="movies-wrapper">
+		<div class="movies-wrapper animate_animated animate__fadeIn">
 			<div v-for="movie in getCurrentPageData" :key="movie">
 				<MovieCard :movie="movie" />
 			</div>

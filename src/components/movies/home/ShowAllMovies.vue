@@ -1,8 +1,8 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import MovieCard from "../../utils/MovieCard.vue";
-import useMovies from "../../../composables/useMovies";
 import Spinner from "../../Loading/Spinner.vue";
+import { useMovies } from "../../../stores/useMovies";
 
 const { getMovies } = useMovies();
 
@@ -10,26 +10,33 @@ let movies = ref([]);
 let tab = ref("movies");
 let active = ref(true);
 let load = ref(0);
+let loading = ref(false);
 
+// loading.value = true;
 const tabToggler = (_tab) => {
 	tab.value = _tab;
 	load.value = 0;
 	if (_tab === "movies") {
-		getMovies("/movies").then((response) => {
-			movies.value = response;
-			console.log("From Movies", response);
+		loading.value = true;
+		getMovies("/movies/trending/all/week").then((response) => {
+			movies.value = response.data;
+			loading.value = false;
+			// console.log("From Movies", response.data);
 		});
 		return;
 	} else if (_tab === "popular") {
-		getMovies("/popular").then((response) => {
-			movies.value = response;
-			console.log("From Popular", response);
+		loading.value = true;
+		getMovies("/movies/popular").then((response) => {
+			movies.value = response.data;
+			loading.value = false;
+			// console.log("From Popular", response.data);
 		});
 		return;
 	}
 };
 onMounted(async () => {
-	movies.value = await getMovies("/movies");
+	let response = await getMovies("/movies/trending/all/week");
+	movies.value = await response.data;
 });
 </script>
 <template>
@@ -93,8 +100,14 @@ onMounted(async () => {
 			</div>
 		</div>
 		<div class="mt-6 mb-10 bg-primary pt-14 pb-10">
-			<div class="movies-wrapper" v-if="movies.length > 0">
-				<div v-for="movie in movies.slice(0, 18 + load)" :key="movie">
+			<div
+				class="movies-wrapper animate__animated animate__fadeIn"
+				v-if="movies.length > 0 && !loading"
+			>
+				<div
+					v-for="movie in movies.slice(0, 18 + load)"
+					:key="movie"
+				>
 					<MovieCard :movie="movie" />
 				</div>
 			</div>

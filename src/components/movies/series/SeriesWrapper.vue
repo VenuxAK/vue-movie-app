@@ -2,12 +2,15 @@
 import { onMounted, ref } from "vue";
 import MovieCard from "../../utils/MovieCard.vue";
 import Spinner from "../../Loading/Spinner.vue";
-import useMovies from "../../../composables/useMovies";
+import { useMovies } from "../../../stores/useMovies";
+
 const { getMovies } = useMovies();
 let movies = ref([]);
 
 onMounted(async () => {
-	movies.value = await getMovies("/series");
+	let response = await getMovies("/movies/series");
+	console.log(response);
+	movies.value = response.data;
 });
 </script>
 

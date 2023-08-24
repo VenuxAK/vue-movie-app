@@ -3,12 +3,13 @@ import { onMounted, ref } from "vue";
 import { RouterLink } from "vue-router";
 import { Carousel, Pagination, Navigation, Slide } from "vue3-carousel";
 import Spinner from "../../Loading/Spinner.vue";
-import useMovies from "../../../composables/useMovies";
-
+import { useMovies } from "../../../stores/useMovies";
 const { getMovies } = useMovies();
+
 let movies = ref([]);
 onMounted(async () => {
-	movies.value = await getMovies("/upcoming");
+	let response = await getMovies("/movies/upcoming");
+	movies.value = response.data;
 });
 
 let settings = ref({
@@ -42,9 +43,24 @@ let breakpoints = ref({
 				<Slide v-for="movie in movies.slice(0, 7)" :key="movie">
 					<div class="carousel__item">
 						<div class="relative rounded-md overflow-hidden">
-							<div class="responsive-bp">
+							<div
+								class="w-[100%] min-w-[90vw] h-[80vh] hidden md:block"
+							>
 								<div class="min-w-full h-full">
-									<RouterLink to="/movies/smt">
+									<RouterLink :to="'/movies/' + movie.id">
+										<img
+											:src="movie.backdrop"
+											alt=""
+											class="w-full h-full object-cover"
+										/>
+									</RouterLink>
+								</div>
+							</div>
+							<div
+								class="w-[100%] min-w-[90vw] h-[80vh] md:hidden"
+							>
+								<div class="min-w-full h-full">
+									<RouterLink :to="'/movies/' + movie.id">
 										<img
 											:src="movie.poster"
 											alt=""
@@ -57,23 +73,28 @@ let breakpoints = ref({
 								<div class="w-full px-3">
 									<div class="flex flex-col items-start">
 										<RouterLink
-											to="/movies/smt"
+											:to="'/movies/' + movie.id"
 											class="text-xl md:text-3xl text-danger font-bold"
 										>
-											Movie Name
+											{{ movie.title ?? movie.name }}
 										</RouterLink>
 										<div
 											class="flex flex-col text-start my-4"
 										>
 											<h5>
-												Language:
-												<span class="font-bold"
-													>English</span
-												>
+												Rating:
+												<span class="font-bold">
+													{{ movie.vote_average.toFixed(1) }}
+												</span>
 											</h5>
 											<h5>
 												Release date :
-												<span>2023 Dec 25</span>
+												<span>
+													{{
+														movie.release_date ??
+														movie.first_air_date
+													}}
+												</span>
 											</h5>
 										</div>
 										<div
@@ -87,15 +108,7 @@ let breakpoints = ref({
 											<p
 												class="text-gray-200 text-sm md:text-base"
 											>
-												Lorem ipsum dolor sit, amet
-												consectetur adipisicing elit.
-												Culpa distinctio, temporibus
-												porro perferendis animi quod
-												soluta aut explicabo ipsum
-												inventore expedita ratione
-												laborum nobis, doloribus dolores
-												voluptas? Veritatis, dolore
-												explicabo.
+												{{ movie.overview }}
 											</p>
 										</div>
 									</div>
@@ -137,7 +150,7 @@ let breakpoints = ref({
 	@apply w-[100%] min-w-[90vw] h-[80vh] md:h-[70vh];
 }
 .movie-overview {
-	@apply absolute w-full md:w-[50%] md:h-full bottom-0 right-0 md:right-0 bg-black/50 py-3 backdrop-blur-sm;
+	@apply absolute w-full md:w-[40%] md:h-full bottom-0 right-0 md:right-0 bg-black/50 py-3 backdrop-blur-sm;
 }
 .carousel__item {
 	// min-height: 200px;

@@ -1,14 +1,16 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import Spinner from "../Loading/Spinner.vue";
-import useMovies from "../../composables/useMovies";
 import MovieCard from "../utils/MovieCard.vue";
+import { useMovies } from "../../stores/useMovies";
 
 const { getMovies } = useMovies();
 let movies = ref([]);
 
 onMounted(async () => {
-	movies.value = await getMovies("/top-rated");
+	let response = await getMovies("/movies/top_rated");
+	// console.log(response);
+	movies.value = response.data;
 });
 </script>
 

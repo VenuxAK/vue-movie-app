@@ -1,5 +1,16 @@
 <script setup>
-const props = defineProps(["tab"]);
+import { onMounted, ref } from "vue";
+import { useMovies } from "../../../stores/useMovies";
+
+const props = defineProps(["tab", "id"]);
+
+const { getMovieDetail } = useMovies();
+let trailers = ref([]);
+onMounted(async () => {
+	let response = await getMovieDetail(props.id, false, true);
+	// console.log(response.data);
+	trailers.value = response.data;
+});
 </script>
 <template>
 	<div
@@ -8,43 +19,17 @@ const props = defineProps(["tab"]);
 	>
 		<div>
 			<div>
-				<div class="videos-wrapper">
-					<div class="trailer">
-						<h4>Final Trailer</h4>
+				<div class="videos-wrapper" v-if="true">
+					<div
+						class="trailer"
+						v-for="trailer in trailers"
+						:key="trailer"
+					>
+						<h4>{{ trailer.name }}</h4>
 						<div class="yt-video-wrapper">
 							<iframe
 								allowfullscreen
-								src="https://www.youtube.com/embed/dblbocy0M-o?mute=1"
-							>
-							</iframe>
-						</div>
-					</div>
-					<div class="trailer">
-						<h4>Opening Ceremony</h4>
-						<div class="yt-video-wrapper">
-							<iframe
-								allowfullscreen
-								src="https://www.youtube.com/embed/nnAHTtxPp-Y?mute=1"
-							>
-							</iframe>
-						</div>
-					</div>
-					<div class="trailer">
-						<h4>Ending Ceremony</h4>
-						<div class="yt-video-wrapper">
-							<iframe
-								allowfullscreen
-								src="https://www.youtube.com/embed/XuDwndGaCFo?mute=1"
-							>
-							</iframe>
-						</div>
-					</div>
-					<div class="trailer">
-						<h4>Premiere of the film</h4>
-						<div class="yt-video-wrapper">
-							<iframe
-								allowfullscreen
-								src="https://www.youtube.com/embed/VbnS5biBmsw?mute=1"
+								:src="`https://www.youtube.com/embed/${trailer.key}?mute=1`"
 							>
 							</iframe>
 						</div>
@@ -63,7 +48,7 @@ const props = defineProps(["tab"]);
 		.trailer {
 			@apply mb-8 md:mb-6 md:w-[49%];
 			h4 {
-				@apply text-lg font-semibold;
+				@apply text-base font-medium md:text-lg md:font-semibold;
 			}
 			.yt-video-wrapper {
 				@apply aspect-w-16 aspect-h-9 md:aspect-w-8 md:aspect-h-4 m-1;

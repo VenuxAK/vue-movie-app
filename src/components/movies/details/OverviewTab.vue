@@ -1,5 +1,5 @@
 <script setup>
-import RelatedMovies from "./RelatedMovies.vue";
+// import RelatedMovies from "./RelatedMovies.vue";
 
 const props = defineProps(["tab", "movie"]);
 </script>
@@ -10,41 +10,57 @@ const props = defineProps(["tab", "movie"]);
 	>
 		<div class="flex flex-col space-y-6">
 			<div class="md:pr-4 lg:pr-10">
-				<p class="text-gray-200 font-medium">
-					Lorem ipsum dolor sit amet consectetur adipisicing elit.
-					Doloremque, laudantium non nemo, recusandae aliquam dicta,
-					sunt reprehenderit quis excepturi ipsum distinctio? Alias
-					quaerat vero enim corrupti doloremque animi, ab natus.
-				</p>
+				<p class="text-gray-200 font-medium">{{ movie.overview }}</p>
 			</div>
-			<div class="w-full space-y-2 font-medium">
-				<div class="flex w-full">
-					<div class="w-28">
-						<h5 class="text-gray-400">Starring</h5>
+			<div class="w-full space-y-4 font-medium">
+				<div
+					class="flex w-full"
+					v-if="movie.production_companies.length > 0"
+				>
+					<div class="w-32 sm:w-64">
+						<h5 class="text-gray-400">Production Companies</h5>
 					</div>
 					<div class="w-full">
-						<h5>Scarlett Johnason, Tessatomson, Rober Downey Jr</h5>
+						<h5>
+							<span
+								v-for="company in movie.production_companies"
+								:key="company"
+							>
+								<span>{{ company.name + ", " }}</span>
+							</span>
+						</h5>
 					</div>
 				</div>
-				<div class="flex">
-					<div class="w-28">
-						<h5 class="text-gray-400">Created by</h5>
+				<div class="flex" v-if="movie.production_countries.length > 0">
+					<div class="w-32 sm:w-64">
+						<h5 class="text-gray-400">Production Countries</h5>
 					</div>
 					<div class="w-full">
-						<h5>Anathony Russo, Joe Russo</h5>
+						<h5>
+							<span
+								v-for="country in movie.production_countries"
+								:key="country"
+							>
+								<span>{{
+									country.name.substr(",") + ", "
+								}}</span>
+							</span>
+						</h5>
 					</div>
 				</div>
-				<div class="flex">
-					<div class="w-28">
+				<div class="flex" v-if="movie.genres.length > 0">
+					<div class="w-32 sm:w-64">
 						<h5 class="text-gray-400">Genres</h5>
 					</div>
 					<div class="w-full">
-						<h5>Action, Advanture, Fantasy</h5>
+						<h5 class="capitalize">
+							{{ movie.genres.join(", ") }}
+						</h5>
 					</div>
 				</div>
 			</div>
 		</div>
-		<RelatedMovies />
+		<!-- <RelatedMovies :id="movie.id" /> -->
 	</div>
 </template>
 

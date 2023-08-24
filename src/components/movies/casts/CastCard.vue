@@ -1,19 +1,19 @@
 <script setup>
-const props = defineProps(["movie"]);
+const props = defineProps(["cast"]);
 </script>
 
 <template>
 	<div class="cast-card">
-		<div class="h-[100%] overflow-hidden rounded-full">
-			<RouterLink to="/casts/someone">
-				<img :src="movie.poster" alt="" />
+		<div class="h-[100%] overflow-hidden rounded-md">
+			<RouterLink :to="'/casts/' + cast.id">
+				<img :src="cast.profile_path" alt="" />
 			</RouterLink>
 		</div>
 		<div class="h-[10%]">
 			<h1
-				class="text-sm lg:text-lg text-gray-400 font-medium text-center"
+				class="text-xs pt-1 lg:text-base text-gray-200 font-medium text-center"
 			>
-				Cast Name
+				{{ cast.name }}
 			</h1>
 		</div>
 	</div>
@@ -21,7 +21,7 @@ const props = defineProps(["movie"]);
 
 <style lang="scss" scoped>
 .cast-card {
-	aspect-ratio: 1/1;
+	aspect-ratio: 4/5;
 	img {
 		@apply w-full min-h-full object-cover object-center;
 	}

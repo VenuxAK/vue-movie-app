@@ -1,5 +1,5 @@
 import "./assets/css/main.css";
-import "animate.css";
+// import "animate.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "flowbite";
 import { createApp } from "vue";

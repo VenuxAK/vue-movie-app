@@ -1,5 +1,11 @@
 <script setup>
-let props = defineProps(["currentPage", "totalPages", "totalResults", "from"]);
+let props = defineProps([
+	"currentPage",
+	"totalPages",
+	"totalResults",
+	"disabled",
+	"from",
+]);
 let emit = defineEmits(["changePage"]);
 
 const nextPage = () => {
@@ -25,14 +31,14 @@ const prevPage = () => {
 			</h1>
 		</div>
 		<div>
-			<div class="flex flex-col items-center space-y-2">
+			<div class="flex flex-col space-y-2">
 				<!-- Help text -->
 				<span class="text-sm text-gray-400">
 					Showing
 					<span class="font-semibold text-white px-1">{{
 						currentPage
 					}}</span>
-					too
+					to
 					<span class="font-semibold text-white px-1">{{
 						totalPages
 					}}</span>
@@ -52,9 +58,10 @@ const prevPage = () => {
 						<i class="fa-solid fa-arrow-left pr-3"></i>
 						Prev
 					</button>
+					<!-- :disabled="currentPage === totalPages || disabled" -->
 					<button
+						:disabled="disabled"
 						@click="nextPage()"
-						:disabled="currentPage === totalPages"
 						class="paginate-btn border-0 border-l border-gray-700 rounded-r"
 					>
 						Next

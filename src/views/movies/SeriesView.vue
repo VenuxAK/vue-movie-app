@@ -5,7 +5,7 @@ import Footer from "../../components/partials/Footer.vue";
 </script>
 <template>
 	<Layout>
-		<SeriesWrapper />
+		<!-- <SeriesWrapper /> -->
 		<Footer />
 	</Layout>
 </template>
